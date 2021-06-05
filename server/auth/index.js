@@ -9,7 +9,7 @@ router.get("/google",
 router.get("/google/drops-of-wisdom",
     passport.authenticate("google", {failureRedirect: "/login"}),
     (req, res) => {
-        res.redirect("/");
+        res.redirect("http://localhost:3000/success");
 });
 
 router.get("/facebook",
@@ -18,7 +18,7 @@ router.get("/facebook",
 router.get("/facebook/drops-of-wisdom",
     passport.authenticate("facebook", {failureRedirect: "/login"}),
     (req, res) => {
-        res.redirect("/");
+        res.redirect("http://localhost:3000/success");;
 });
 
 router.get("/github",
@@ -27,7 +27,7 @@ router.get("/github",
 router.get("/github/drops-of-wisdom",
     passport.authenticate("github", {failureRedirect: "/login"}),
     (req, res) => {
-        res.redirect("/");
+        res.redirect("http://localhost:3000/success");;
 });
 
 router.get('/user', (req, res) => {
@@ -90,7 +90,7 @@ router.get("/logout", (req, res) => {
     } else {
         return res.json({error: "No user to log out!"});
     }
-    // res.redirect("/");
+    //res.redirect("http://localhost:3000/login");
 });
 
 module.exports = router;

@@ -3,21 +3,21 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import './App.css';
 import Login from './pages/login';
+import Success from './pages/success';
 import Register from './pages/signup';
 import Home from './pages/index';
 import { UserContext } from "./UserContext";
-import Navibar from "./components/Navbar";
 
 
 
 const App = () => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   
-  axios.get("/auth/user")
-    .then(res => {
-      setUser(res.user);
-    });
+  // axios.get("/auth/user")
+  //   .then(res => {
+  //     setUser(res.user);
+  //   });
 
   return (
     // 
@@ -26,7 +26,8 @@ const App = () => {
       <UserContext.Provider value={{user, setUser}}>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/" component={() => <Home authorized={true} />} />
+        <Route exact path="/success" component={Success} />
+        <Route exact path="/" component={Home} />
       </UserContext.Provider>
       </Switch>
     </Router>

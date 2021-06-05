@@ -1,10 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { UserContext } from '../UserContext';
 import SignupForm from "../components/SignupForm";
+import axios from "axios"
 
 const Register = () => {
     const {user, setUser} = useContext(UserContext);
+    const [newUser, setNewUser] = useState({});
+
+    const registerUser = () => {
+      console.log(newUser);
+      axios.post("/auth/register",{"username": newUser.username, "password": newUser.password})
+      .then((response) => {
+        console.log(response);
+        setUser(response.data.user)
+      }, (error) => {
+        console.log(error);
+        alert("Try Again")
+      });
+    }
+
+    const handleChange = (event) => {
+      const {name, value} = event.target
+      setNewUser( (prevValues) => {
+        return {...prevValues, [name]: value }
+      })
+    }
+
+    if (user.username) {
+      return <Redirect to="/success" push={true} />
+    }
     return(
         <div class="container mt-5">
   <h1>Register</h1>
@@ -16,16 +41,16 @@ const Register = () => {
 
             {/* <SignupForm /> */}
         
-          <form action="/auth/register" method="POST">
+          <form>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" name="username"></input>
+              <input type="email" class="form-control" name="username" onChange={handleChange} value={newUser.username}></input>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" name="password"></input>
+              <input type="password" class="form-control" name="password" onChange={handleChange} value={newUser.password}></input>
             </div>
-            <button type="submit" class="btn btn-dark">Register</button>
+            <button type="submit" class="btn btn-dark" onClick={registerUser}>Register</button>
           </form>
 
         </div>
@@ -36,7 +61,7 @@ const Register = () => {
 
       <div class="card">
         <div class="card-body">
-          <a class="btn btn-block btn-social btn-google" href="./google" role="button">
+          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
             <i class="fab fa-google"></i>
             Sign Up with Google
           </a>
@@ -45,7 +70,7 @@ const Register = () => {
 
       <div class="card social-block">
         <div class="card-body">
-          <a class="btn btn-block btn-social btn-facebook" href="./facebook" role="button">
+          <a class="btn btn-block btn-social btn-facebook" href="/auth/facebook" role="button">
             <i class="fab fa-facebook"></i>
             Sign Up with Facebook
           </a>
@@ -54,7 +79,7 @@ const Register = () => {
 
       <div class="card social-block">
         <div class="card-body">
-          <a class="btn btn-block btn-social btn-github" href="./github" role="button">
+          <a class="btn btn-block btn-social btn-github" href="/auth/github" role="button">
             <i class="fab fa-github"></i>
             Sign Up with GitHub
           </a>

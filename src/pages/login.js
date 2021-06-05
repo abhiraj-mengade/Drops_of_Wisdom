@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext,useState,useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { UserContext } from '../UserContext';
 import axios from "axios"
@@ -6,7 +6,6 @@ import axios from "axios"
 
 const Login = () => {
 
-	const {user, setUser} = useContext(UserContext);
 	return (<div class="container mt-5">
     <h1>Login</h1>
   
