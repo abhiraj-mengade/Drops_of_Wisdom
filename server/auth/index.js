@@ -8,8 +8,8 @@ router.get("/google",
 
 router.get("/google/drops-of-wisdom",
     passport.authenticate("google", {failureRedirect: "/login"}),
-    function(req, res){
-        res.redirect("../../secrets");
+    (req, res) => {
+        res.redirect("/");
 });
 
 router.get("/facebook",
@@ -17,8 +17,8 @@ router.get("/facebook",
 
 router.get("/facebook/drops-of-wisdom",
     passport.authenticate("facebook", {failureRedirect: "/login"}),
-    function(req, res){
-        res.redirect("../../secrets");
+    (req, res) => {
+        res.redirect("/");
 });
 
 router.get("/github",
@@ -26,54 +26,71 @@ router.get("/github",
 
 router.get("/github/drops-of-wisdom",
     passport.authenticate("github", {failureRedirect: "/login"}),
-    function(req, res){
-        res.redirect("../../secrets");
+    (req, res) => {
+        res.redirect("/");
 });
 
-router.get("/login", function(req, res){
-    res.render("login");
-});
-router.post("/login", function(req, res){
+router.get('/user', (req, res) => {
+	if (req.user) {
+		return res.json({ user: req.user })
+	} else {
+		return res.json({ user: null })
+	}
+})
+
+// router.get("/login", (req, res){
+//     res.render("login");
+// });
+router.post("/login", (req, res) => {
 
     const user = new User({
         username: req.body.username,
         password: req.body.password
     });
-    req.login(user, function(err){
+    req.login(user, (err) => {
         if (err){
-            console.log(err);
+            // console.log(err);
+            return res.json({ user: null, error: err });
         }
         else{
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("../../secrets");
+            passport.authenticate("local")(req, res, () => {
+                // res.redirect("../../secrets");
+                return res.json({ user: req.user, error: null });
             });
         }
     });
 
 });
 
-router.get("/register", function(req, res){
-    res.render("register");
-});
-router.post("/register", function(req, res){
+// router.get("/register", (req, res){
+//     res.render("register");
+// });
 
-    User.register({username: req.body.username}, req.body.password, function(err, user){
+router.post("/register", (req, res) => {
+
+    User.register({username: req.body.username}, req.body.password, (err, user) => {
         if (err){
             console.log(err);
-            res.redirect("/register");
+            return res.json({ user: null, error: err });
         }
         else{
-            passport.authenticate("local")(req, res, function(){
-                res.redirect("../../secrets");
+            passport.authenticate("local")(req, res, () => {
+                // res.redirect("../../secrets");
+                return res.json({ user: user, error: null })
             });
         }
     });
 
 });
 
-router.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/");
+router.get("/logout", (req, res) => {
+    if (req.user) {
+        req.logout();
+        return res.json({ error: null });
+    } else {
+        return res.json({error: "No user to log out!"});
+    }
+    // res.redirect("/");
 });
 
 module.exports = router;

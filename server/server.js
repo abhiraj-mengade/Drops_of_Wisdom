@@ -108,7 +108,7 @@ app.get("/", function(req, res){
     res.render("home");
 });
 
-app.use("/auth", require("./auth"))
+app.use("/auth", require("./auth/index"))
 
 // app.get("/auth/google",
 //     passport.authenticate("google", {scope: ["profile", "email"]}));

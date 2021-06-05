@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Navibar from './components/Navbar'
 import App from './App';
-import {BrowserRouter} from "react-router-dom";
 import axios from "axios";
 
 ReactDOM.render(
-  <BrowserRouter> 
-    <App />
-  </BrowserRouter>,
+  <App />,
   document.getElementById('root')
 );
