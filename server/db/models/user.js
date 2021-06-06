@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
 const findOrCreate = require("mongoose-findorcreate");
 const passportLocalMongoose = require("passport-local-mongoose");
+const { postSchema } = require("./post");
 
 const userSchema = new mongoose.Schema({
-    email: String,
+    username: String,
+    name: String,
     password: String,
     googleId: String,
     facebookId: String,
     githubId: String,
-    secret: String
+    posts: [postSchema]
 });
 
 userSchema.plugin(passportLocalMongoose);

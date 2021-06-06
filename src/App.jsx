@@ -7,6 +7,7 @@ import Success from './pages/success';
 import Register from './pages/signup';
 import Home from './pages/index';
 import { UserContext } from "./UserContext";
+import Posts from "./pages/posts";
 
 
 
@@ -28,6 +29,8 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/success" component={Success} />
         <Route exact path="/" component={Home} />
+        <Route exact path="/posts" component={Posts} />
+
       </UserContext.Provider>
       </Switch>
     </Router>
