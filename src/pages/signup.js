@@ -1,19 +1,44 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { UserContext } from '../UserContext';
 import SignupForm from "../components/SignupForm";
 import axios from "axios"
 
 const Register = () => {
-    const {user, setUser} = useContext(UserContext);
-    const [newUser, setNewUser] = useState({});
+    const [newUser, setNewUser] = useState({username: "", password: ""});
+    const [redirectTo, setRedirectTo] = useState("");
 
-    const registerUser = () => {
-      console.log(newUser);
-      axios.post("/auth/register",{"username": newUser.username, "password": newUser.password})
+    // useEffect(() => {
+    //   async function fetchData(setRegistered, newUser) {
+    //       console.log(newUser)
+    //       const postrequest = await axios.post("/auth/register", newUser).catch((err) => console.log(err));
+    //       // setRegistered(true);
+    //       // const getrequest = await axios.get("/auth/user").catch((err) => console.log(err));
+    //       // setUser(getrequest.data.user);
+    //       // console.log(user.username)
+    //       console.log(postrequest);
+    //   }
+    //   if (clicked) {
+    //     fetchData(setRegistered, newUser);
+    //     setClicked(false)
+    //   }
+    // }, [clicked])
+    const Onsubmit = async () =>  {
+      const res = await axios.get("/auth/user").catch((err) => console.log(err));
+      if(res.data.user) {
+        console.log(res.data.user)
+        setRedirectTo("/success");
+      }
+    }
+
+    const registerUser = (event) => {
+      event.preventDefault();
+      // setClicked(true);
+      axios.post("/auth/register", newUser)
       .then((response) => {
         console.log(response);
-        setUser(response.data.user)
+        Onsubmit();
+        
       }, (error) => {
         console.log(error);
         alert("Try Again")
@@ -27,9 +52,11 @@ const Register = () => {
       })
     }
 
-    if (user.username) {
-      return <Redirect to="/success" push={true} />
+    if (redirectTo) {
+      return <Redirect to={redirectTo} />;
     }
+
+    
     return(
         <div class="container mt-5">
   <h1>Register</h1>

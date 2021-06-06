@@ -55,7 +55,8 @@ router.post("/login", (req, res) => {
         else{
             passport.authenticate("local")(req, res, () => {
                 // res.redirect("../../secrets");
-                return res.json({ user: req.user, error: null });
+                return res.json(user);
+                //res.redirect("http://localhost:3000/success");
             });
         }
     });
@@ -67,7 +68,7 @@ router.post("/login", (req, res) => {
 // });
 
 router.post("/register", (req, res) => {
-
+    console.log(req.body);
     User.register({username: req.body.username}, req.body.password, (err, user) => {
         if (err){
             console.log(err);

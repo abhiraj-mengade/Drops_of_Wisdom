@@ -4,8 +4,43 @@ import { UserContext } from '../UserContext';
 import axios from "axios"
 
 
+
 const Login = () => {
 
+  const [newUser, setNewUser] = useState({username: "", password: ""});
+  const [redirectTo, setRedirectTo] = useState("");
+
+  const Onsubmit = async () =>  {
+    const res = await axios.get("/auth/user").catch((err) => console.log(err));
+    if(res.data.user) {
+      console.log(res.data.user)
+      setRedirectTo("/success");
+    }
+  }
+
+  const LoginUser = (event) => {
+    event.preventDefault();
+    // setClicked(true);
+    axios.post("/auth/login", newUser)
+    .then((response) => {
+      console.log(response);
+      Onsubmit();
+      
+    }, (error) => {
+      console.log(error);
+      alert("Try Again! Wrong Username or Password")
+    });
+  }
+
+  const handleChange = (event) => {
+    const {name, value} = event.target
+    setNewUser( (prevValues) => {
+      return {...prevValues, [name]: value }
+    })
+  }
+if (redirectTo) {
+      return <Redirect to={redirectTo} />;
+    }
 	return (<div class="container mt-5">
     <h1>Login</h1>
   
@@ -15,16 +50,16 @@ const Login = () => {
           <div class="card-body">
   
            
-            <form action="/auth/login" method="POST">
+            <form action>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" name="username"></input>
+                <input type="email" class="form-control" onChange={handleChange} value={newUser.username} name="username"></input>
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" name="password"></input>
+                <input type="password" class="form-control" onChange={handleChange} value={newUser.password} name="password"></input>
               </div>
-              <button type="submit" class="btn btn-dark">Login</button>
+              <button type="submit" onClick={LoginUser} class="btn btn-dark">Login</button>
             </form>
   
           </div>

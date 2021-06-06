@@ -7,6 +7,7 @@ import { Redirect } from 'react-router';
 const Success = () => {
 
   const { user, setUser } = useContext(UserContext)  
+  const [loggedOut, setLoggedOut] = useState(false);
   useEffect(() => {  
     axios.get("/auth/user")  
         .then(res => {  
@@ -22,14 +23,15 @@ const Success = () => {
     axios.get("/auth/logout")  
         .then(res => {  
             console.log(res)  
-            setUser({})  
+            setUser({}) 
+            setLoggedOut(true); 
         })  
         .catch(err => {  
             console.log(err)  
         }) 
   };
 
-  if (!user) {
+  if (loggedOut) {
     return <Redirect to="/login" push={true} />
   }
   return(
