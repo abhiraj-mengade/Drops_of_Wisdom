@@ -31,7 +31,7 @@ const Success = () => {
         }) 
   };
 
-  if (loggedOut) {
+  if (!user) {
     return <Redirect to="/login" push={true} />
   }
   return(
@@ -41,7 +41,7 @@ const Success = () => {
       <h1>Login Successful {user.username}</h1>
   
       <a class="btn btn-light btn-lg" onClick={logout} role="button">Log Out</a>
-      <a class="btn btn-dark btn-lg" href="/Home" role="button">Proceed</a>
+      <a class="btn btn-dark btn-lg" href="/posts" role="button">Proceed</a>
     </div>
   </div>
   );

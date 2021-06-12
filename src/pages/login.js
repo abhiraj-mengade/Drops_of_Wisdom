@@ -7,6 +7,7 @@ import axios from "axios"
 
 const Login = () => {
 
+  const {user, setUser} = useContext(UserContext);
   const [newUser, setNewUser] = useState({username: "", password: ""});
   const [redirectTo, setRedirectTo] = useState("");
 
@@ -41,6 +42,10 @@ const Login = () => {
 if (redirectTo) {
       return <Redirect to={redirectTo} />;
     }
+
+if (user) {
+  return <Redirect to="/success" />;
+}
 	return (<div class="container mt-5">
     <h1>Login</h1>
   

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     googleId: String,
     facebookId: String,
     githubId: String,
-    posts: [postSchema]
+    posts: [mongoose.ObjectId]
 });
 
 userSchema.plugin(passportLocalMongoose);

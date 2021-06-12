@@ -8,6 +8,8 @@ const MongoStore = require('connect-mongo');
 const dbConnection = require("./db");
 const passport = require("./passport");
 const User = require("./db/models/user");
+const cors = require("cors")
+//const {postRouter} = require("./db/models/post");
 // const passportLocalMongoose = require("passport-local-mongoose");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 // const FacebookStrategy = require("passport-facebook").Strategy;
@@ -18,6 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.static("public"));
+app.use(cors())
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -110,6 +113,8 @@ app.get("/", function(req, res){
 
 app.use("/auth", require("./auth/index"))
 
+app.use("/post", require("./db/models/post"))
+
 // app.get("/auth/google",
 //     passport.authenticate("google", {scope: ["profile", "email"]}));
 
@@ -178,43 +183,43 @@ app.use("/auth", require("./auth/index"))
 
 // });
 
-app.get("/secrets", function(req, res){
-    User.find({"secret": {$ne: null}}, function(err, foundUsers){
-        if (err){
-            console.log(err);
-        }
-        else{
-            if(foundUsers){
-                res.render("secrets", {usersWithSecrets: foundUsers});
-            }
-        }
-    });
-});
+// app.get("/secrets", function(req, res){
+//     User.find({"secret": {$ne: null}}, function(err, foundUsers){
+//         if (err){
+//             console.log(err);
+//         }
+//         else{
+//             if(foundUsers){
+//                 res.render("secrets", {usersWithSecrets: foundUsers});
+//             }
+//         }
+//     });
+// });
 
-app.get("/submit", function(req, res){
-    if (req.isAuthenticated()){
-        res.render("submit");
-    }
-    else{
-        res.redirect("/auth/login");
-    }
-});
+// app.get("/submit", function(req, res){
+//     if (req.isAuthenticated()){
+//         res.render("submit");
+//     }
+//     else{
+//         res.redirect("/auth/login");
+//     }
+// });
 
-app.post("/submit", function(req, res){
-    User.findById(req.user.id, function(err, foundUser){
-        if (err){
-            console.log(err);
-        }
-        else{
-            if(foundUser){
-                foundUser.secret = req.body.secret;
-                foundUser.save(function(){
-                    res.redirect("/secrets");
-                });
-            }
-        }
-    });
-});
+// app.post("/submit", function(req, res){
+//     User.findById(req.user.id, function(err, foundUser){
+//         if (err){
+//             console.log(err);
+//         }
+//         else{
+//             if(foundUser){
+//                 foundUser.secret = req.body.secret;
+//                 foundUser.save(function(){
+//                     res.redirect("/secrets");
+//                 });
+//             }
+//         }
+//     });
+// });
 
 // app.get("/logout", function(req, res){
 //     req.logout();
