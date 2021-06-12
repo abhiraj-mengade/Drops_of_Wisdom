@@ -10,6 +10,7 @@ import Home from './pages/index';
 import { UserContext } from "./UserContext";
 import Posts from "./pages/posts";
 import Navibar from "./components/Navbar";
+import NewPost from "./pages/newpost";
 
 
 
@@ -32,9 +33,9 @@ const App = () => {
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/success" component={Success} />
-          <Route exact path="/" component={Home} />
           <Route exact path="/posts" component={Posts} />
-          
+          <Route exact path="/createpost" component={NewPost} />
+          <Route exact path="/" component={Home} />
         </Switch>
       </Router>          
    </UserContext.Provider>

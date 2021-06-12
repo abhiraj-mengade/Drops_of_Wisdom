@@ -7,7 +7,7 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const dbConnection = require("./db");
 const passport = require("./passport");
-const User = require("./db/models/user");
+const {User, userRouter} = require("./db/models/user");
 const cors = require("cors")
 //const {postRouter} = require("./db/models/post");
 // const passportLocalMongoose = require("passport-local-mongoose");
@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.static("public"));
-app.use(cors())
+app.use(cors());
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -114,6 +114,8 @@ app.get("/", function(req, res){
 app.use("/auth", require("./auth/index"))
 
 app.use("/post", require("./db/models/post"))
+
+app.use("/user", userRouter);
 
 // app.get("/auth/google",
 //     passport.authenticate("google", {scope: ["profile", "email"]}));

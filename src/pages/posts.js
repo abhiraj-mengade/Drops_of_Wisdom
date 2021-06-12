@@ -25,7 +25,7 @@ const Posts = ()=>{
     }, [])  
 
     useEffect(async () => {  
-        await axios.get("http://localhost:8080/post", user)  
+        await axios.get("/post", user)  
             .then(res => {  
                 console.log(res);
                 setPost(res.data.post);
@@ -40,13 +40,11 @@ const Posts = ()=>{
     }, [clicked])  
 
     useEffect(async () => {  
-        await axios.get("http://localhost:8080/post/user")  
+        await axios.get("/post/user")  
             .then(res => {  
                 console.log(res);
-                //setPosts(res.data.posts);
+                setPosts(res.data.posts);
                 //post.image = "http://lorempixel.com/250/25" + (Math.floor(Math.random() * 10)).toString();
-    
-
             })  
             .catch(err => {  
                 console.log(err)  
@@ -75,15 +73,17 @@ const Posts = ()=>{
         <center>
         <h2>Current Hot Post</h2>
         <div class="d-flex justify-content-center" >
-         <Post title={post.title} image ={post.image}  content={post.content} likes={post.likes} comments={post.comments} />
+         <Post id={post._id} title={post.title} image ={post.image}  content={post.content} likes={post.likes} comments={post.comments} />
          </div>
-         <button type="submit"  onClick= {() => setClicked(!clicked)} class="btn btn-dark">Next</button> 
-         <p>Click here to make a new post</p>
+         <button type="submit"  onClick= {() => setClicked(!clicked)} class="btn btn-dark">Next</button>
+         <div> 
+         <a class="btn btn-dark btn-lg" href="/createpost" role="button">CreatePost</a>
+         </div>
          <h1>Your Posts</h1>
          {posts? posts.map(post => {
-            return <Post title={post.title} image ={post.image} content={post.content} likes={post.likes} comments={post.comments} />
+            return <Post id={post._id} title={post.title} image ={post.image} content={post.content} likes={post.likes.length} comments={post.comments} />
                 } ) : <p>No posts available!</p>} 
-        {/* <Post title={posts.title} image ={posts.image}  content={posts.content} likes={posts.likes} comments={posts.comments} /> */}
+        
             
          </center>
         </div>

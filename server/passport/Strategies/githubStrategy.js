@@ -1,5 +1,5 @@
 const GitHubStrategy = require("passport-github2").Strategy;
-const User = require("../../db/models/user");
+const {User} = require("../../db/models/user");
 
 const strategy = new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,

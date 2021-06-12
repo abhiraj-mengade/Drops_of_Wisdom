@@ -2,7 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("./Strategies/googleStrategy");
 const FacebookStrategy = require("./Strategies/facebookStrategy");
 const GitHubStrategy = require("./Strategies/githubStrategy");
-const User = require("../db/models/user");
+const {User} = require("../db/models/user");
 
 passport.use(User.createStrategy());
 

@@ -1,5 +1,5 @@
 const FacebookStrategy = require("passport-facebook").Strategy;
-const User = require("../../db/models/user");
+const {User} = require("../../db/models/user");
 
 const strategy = new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
